@@ -33,7 +33,7 @@ export default function Testimonials() {
 
         {/* Header */}
         <div className="mx-auto max-w-2xl text-center">
-          <span className="rounded-full bg-cyan-100 px-4 py-1 text-sm font-semibold text-cyan-700">
+          <span className="rounded-full bg-gradient-to-r from-cyan-600 to-sky-500 text-white px-4 py-1 text-2xl font-bold ">
             Testimonials
           </span>
 
