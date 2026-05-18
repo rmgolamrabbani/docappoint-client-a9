@@ -84,13 +84,20 @@ export default function Navbar() {
             {darkMode ? <Sun size={18} /> : <Moon size={18} />}
           </button>
 
-          <button className="text-sm font-bold text-slate-700 transition hover:text-cyan-600">
+          <Link
+            href="/login"
+            className="text-sm font-bold text-slate-700 transition hover:text-cyan-600"
+          >
             Login
-          </button>
+          </Link>
+          
 
-          <button className="rounded-xl bg-gradient-to-r from-cyan-600 to-sky-500 px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-cyan-200/50 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl">
+          <Link
+            href="/register"
+            className="rounded-xl bg-gradient-to-r from-cyan-600 to-sky-500 px-6 py-2.5 text-sm font-bold text-white shadow-lg shadow-cyan-200/50 transition-all duration-300 hover:scale-[1.03] hover:shadow-xl"
+          >
             Register
-          </button>
+          </Link>
         </div>
 
         {/* Mobile Toggle */}
@@ -133,13 +140,19 @@ export default function Navbar() {
               })}
 
               <div className="flex flex-col gap-3 pt-3">
-                <button className="rounded-xl border border-cyan-200 bg-white py-3 font-bold text-slate-700 hover:bg-slate-50">
+                <Link
+                  href="/login"
+                  className="rounded-xl border border-cyan-200 bg-white py-3 font-bold text-slate-700 hover:bg-slate-50"
+                >
                   Login
-                </button>
+                </Link>
 
-                <button className="rounded-xl bg-gradient-to-r from-cyan-600 to-sky-500 py-3 font-bold text-white shadow-lg shadow-cyan-200/40">
+                <Link
+                  href="/register"
+                  className="rounded-xl bg-gradient-to-r from-cyan-600 to-sky-500 py-3 font-bold text-white shadow-lg shadow-cyan-200/40"
+                >
                   Register
-                </button>
+                </Link>
               </div>
             </div>
           </motion.div>
