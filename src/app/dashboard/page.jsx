@@ -1,10 +1,5 @@
-const DashboardPage = () => {
-  return (
-    <div>
-      <h1>Dashboard</h1>
-      <p>This is the dashboard page.</p>
-    </div>
-  );
-};
+import { redirect } from "next/navigation";
 
-export default DashboardPage;
+export default function DashboardPage() {
+  return redirect("/dashboard/bookings");
+}

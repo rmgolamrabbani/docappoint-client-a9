@@ -48,7 +48,7 @@ export default function Navbar() {
             width={135}
             height={90}
             priority
-            className="object-contain transition duration-300 hover:scale-105"
+            className="transition duration-300 hover:scale-105"
           />
         </Link>
 
