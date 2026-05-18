@@ -1,3 +1,4 @@
+import DoctorDetailsClient from "@/components/DoctorDetailsClient";
 import {
   BriefcaseMedical,
   Building2,
@@ -173,9 +174,7 @@ const DoctorDetailsPage = async ({ params }) => {
               </div>
 
               {/* Button */}
-              <button className="rounded-2xl bg-gradient-to-r from-cyan-600 to-sky-500 px-8 py-4 font-semibold text-white shadow-xl transition-all duration-300 hover:scale-105">
-                Book Appointment
-              </button>
+             <DoctorDetailsClient doctor={doctor} />
             </div>
           </div>
         </div>
