@@ -1,9 +1,14 @@
-const AllAppointmentsPage = () => {
+import { getAppointments } from "@/lib/all-appointments/data";
+import AllAppointmentsClient from "./AllAppointmentsClient";
+
+const AllAppointmentsPage = async () => {
+
+  const allAppointmentsData = await getAppointments();
+
   return (
-    <div>
-      <h1>All Appointments</h1>
-      <p>This is the page for displaying all appointments.</p>
-    </div>
+    <AllAppointmentsClient
+      allAppointmentsData={allAppointmentsData}
+    />
   );
 };
 
