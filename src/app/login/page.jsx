@@ -1,11 +1,39 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Mail, LockKeyhole } from "lucide-react";
-import Image from "next/image";
+import { useRouter } from "next/navigation";
+
+import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
+  const router = useRouter();
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+
+    const user = Object.fromEntries(formData.entries());
+
+    const { data, error } = await authClient.signIn.email({
+      email: user.email,
+      password: user.password,
+    });
+
+    if (error) {
+      alert(error.message || "Login failed");
+      return;
+    }
+
+    if (data) {
+      alert("Login Successful");
+      router.push("/");
+    }
+  };
+
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-cyan-50 via-white to-sky-100 px-4 py-10">
 
@@ -35,6 +63,7 @@ export default function LoginPage() {
               width={160}
               height={160}
               priority
+              style={{ width: "auto", height: "auto" }}
               className="mb-[-28px] mt-[-20px] object-contain transition duration-300 hover:scale-105"
             />
           </div>
@@ -49,7 +78,7 @@ export default function LoginPage() {
         </div>
 
         {/* Form */}
-        <form className="mt-8 space-y-5">
+        <form onSubmit={onSubmit} className="mt-8 space-y-5">
 
           {/* Email */}
           <div>
@@ -62,6 +91,8 @@ export default function LoginPage() {
 
               <input
                 type="email"
+                name="email"
+                required
                 placeholder="Enter your email"
                 className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
               />
@@ -88,6 +119,8 @@ export default function LoginPage() {
 
               <input
                 type="password"
+                name="password"
+                required
                 placeholder="Enter your password"
                 className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
               />
@@ -161,3 +194,4 @@ export default function LoginPage() {
     </section>
   );
 }
+

@@ -1,14 +1,52 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { Mail, LockKeyhole, User, ImageIcon, Stethoscope } from "lucide-react";
 import Image from "next/image";
+import { motion } from "framer-motion";
+import {
+  Mail,
+  LockKeyhole,
+  User,
+  ImageIcon,
+} from "lucide-react";
+
+import { useRouter } from "next/navigation";
+
+// authClient import করো তোমার path অনুযায়ী
+// example:
+import { authClient } from "@/lib/auth-client";
 
 export default function RegisterPage() {
+  const router = useRouter();
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+
+    const user = Object.fromEntries(formData.entries());
+
+    const { data, error } = await authClient.signUp.email({
+      email: user.email,
+      password: user.password,
+      name: user.name,
+      image: user.image,
+    });
+
+    if (error) {
+      alert(error.message || "Registration failed");
+      return;
+    }
+
+    if (data) {
+      alert("Registration Successful");
+      router.push("/");
+    }
+  };
+
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-cyan-50 via-white to-sky-100 px-4 py-10">
-
+      
       {/* Background Blur */}
       <div className="absolute -left-10 top-0 h-40 w-40 rounded-full bg-cyan-300/20 blur-3xl md:h-72 md:w-72"></div>
 
@@ -21,20 +59,18 @@ export default function RegisterPage() {
         transition={{ duration: 0.5 }}
         className="relative w-full max-w-md overflow-hidden rounded-3xl border border-cyan-100 bg-white/90 p-7 shadow-2xl backdrop-blur-xl"
       >
-
         {/* Top Glow */}
         <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-cyan-200/30 blur-3xl"></div>
 
-        {/* Logo/Icon */}
+        {/* Logo */}
         <div className="flex flex-col items-center justify-center text-center">
-
-          <div className="mt-[-30] relative overflow-hidden">
+          <div className="relative mb-2 overflow-hidden rounded-full">
             <Image
               src="/logo.png"
               alt="DocAppoint Logo"
-              width={164}
-              height={164}
-              className="object-contain transition duration-300 hover:scale-105 overflow-hidden rounded-full mb-[-30]"
+              width={140}
+              height={140}
+              className="object-contain transition duration-300 hover:scale-105"
             />
           </div>
 
@@ -48,7 +84,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Form */}
-        <form className="mt-8 space-y-5">
+        <form onSubmit={onSubmit} className="mt-8 space-y-5">
 
           {/* Name */}
           <div>
@@ -61,6 +97,8 @@ export default function RegisterPage() {
 
               <input
                 type="text"
+                name="name"
+                required
                 placeholder="Enter your name"
                 className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
               />
@@ -78,6 +116,8 @@ export default function RegisterPage() {
 
               <input
                 type="email"
+                name="email"
+                required
                 placeholder="Enter your email"
                 className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
               />
@@ -87,7 +127,8 @@ export default function RegisterPage() {
           {/* Photo URL */}
           <div>
             <label className="mb-2 block text-sm font-semibold text-slate-700">
-              Photo URL <span className="text-slate-400">(optional)</span>
+              Photo URL{" "}
+              <span className="text-slate-400">(optional)</span>
             </label>
 
             <div className="flex items-center gap-3 rounded-xl border border-cyan-100 bg-white px-4 py-3 shadow-sm transition focus-within:border-cyan-500 focus-within:ring-2 focus-within:ring-cyan-100">
@@ -95,6 +136,7 @@ export default function RegisterPage() {
 
               <input
                 type="text"
+                name="image"
                 placeholder="https://example.com/photo.jpg"
                 className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
               />
@@ -112,6 +154,8 @@ export default function RegisterPage() {
 
               <input
                 type="password"
+                name="password"
+                required
                 placeholder="Enter your password"
                 className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
               />
@@ -172,7 +216,7 @@ export default function RegisterPage() {
           {/* Login Link */}
           <p className="text-center text-sm text-slate-500">
             Already have an account?{" "}
-
+            
             <Link
               href="/login"
               className="font-semibold text-cyan-600 transition hover:text-cyan-700"
@@ -185,4 +229,5 @@ export default function RegisterPage() {
     </section>
   );
 }
+
 
