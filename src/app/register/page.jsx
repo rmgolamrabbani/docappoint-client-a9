@@ -12,8 +12,6 @@ import {
 
 import { useRouter } from "next/navigation";
 
-// authClient import করো তোমার path অনুযায়ী
-// example:
 import { authClient } from "@/lib/auth-client";
 
 export default function RegisterPage() {
@@ -44,10 +42,19 @@ export default function RegisterPage() {
     }
   };
 
+   const handleGoogleLogin = async () => {
+  
+      await authClient.signIn.social({
+        provider: "google",
+      });
+    }
+
+
+
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-cyan-50 via-white to-sky-100 px-4 py-10">
       
-      {/* Background Blur */}
+      
       <div className="absolute -left-10 top-0 h-40 w-40 rounded-full bg-cyan-300/20 blur-3xl md:h-72 md:w-72"></div>
 
       <div className="absolute bottom-0 right-0 h-40 w-40 rounded-full bg-sky-300/20 blur-3xl md:h-80 md:w-80"></div>
@@ -59,17 +66,17 @@ export default function RegisterPage() {
         transition={{ duration: 0.5 }}
         className="relative w-full max-w-md overflow-hidden rounded-3xl border border-cyan-100 bg-white/90 p-7 shadow-2xl backdrop-blur-xl"
       >
-        {/* Top Glow */}
+    
         <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-cyan-200/30 blur-3xl"></div>
 
         {/* Logo */}
         <div className="flex flex-col items-center justify-center text-center">
-          <div className="relative mb-2 overflow-hidden rounded-full">
+          <div className="relative overflow-hidden rounded-full m-[-22]">
             <Image
               src="/logo.png"
               alt="DocAppoint Logo"
-              width={140}
-              height={140}
+              width={250}
+              height={250}
               className="object-contain transition duration-300 hover:scale-105"
             />
           </div>
@@ -170,7 +177,6 @@ export default function RegisterPage() {
             Register
           </button>
 
-          {/* Divider */}
           <div className="relative flex items-center justify-center py-1">
             <div className="h-px w-full bg-slate-200"></div>
 
@@ -181,6 +187,7 @@ export default function RegisterPage() {
 
           {/* Google Button */}
           <button
+            onClick={handleGoogleLogin}
             type="button"
             className="flex w-full items-center justify-center gap-3 rounded-xl border border-cyan-100 bg-white py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:bg-cyan-50"
           >

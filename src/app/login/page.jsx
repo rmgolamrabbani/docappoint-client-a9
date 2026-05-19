@@ -34,6 +34,18 @@ export default function LoginPage() {
     }
   };
 
+  const handleGoogleLogin = async () => {
+
+    await authClient.signIn.social({
+      provider: "google",
+    });
+  }
+
+
+
+
+
+
   return (
     <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-gradient-to-br from-cyan-50 via-white to-sky-100 px-4 py-10">
 
@@ -146,6 +158,7 @@ export default function LoginPage() {
 
           {/* Google Login */}
           <button
+            onClick={handleGoogleLogin}
             type="button"
             className="flex w-full items-center justify-center gap-3 rounded-xl border border-cyan-100 bg-white py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all duration-300 hover:bg-cyan-50"
           >
