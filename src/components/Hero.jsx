@@ -14,6 +14,7 @@ import {
 
 import "swiper/css";
 import "swiper/css/pagination";
+import Link from "next/link";
 
 const slides = [
   {
@@ -108,9 +109,10 @@ export default function Banner() {
               </p>
             </div>
 
-            {/* Buttons */}
+
             <div className="flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
 
+            
               <button className="group flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-cyan-600 to-sky-500 px-7 py-3 font-semibold text-white shadow-lg shadow-cyan-200/40 transition-all duration-300 hover:scale-[1.02]">
                 Book Appointment
 
@@ -120,12 +122,14 @@ export default function Banner() {
                 />
               </button>
 
+              
               <button className="rounded-xl border border-cyan-600 bg-white px-7 py-3 font-semibold text-cyan-700 transition-all duration-300 hover:bg-cyan-50">
                 Explore Doctors
               </button>
+
             </div>
 
-            {/* Features */}
+           
             <div className="grid grid-cols-1 gap-4 pt-3 md:grid-cols-3">
 
               {features.map((feature) => {
@@ -160,7 +164,7 @@ export default function Banner() {
             </div>
           </motion.div>
 
-          {/* Right Slider */}
+      
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
@@ -168,7 +172,7 @@ export default function Banner() {
             className="relative mx-auto w-full"
           >
 
-            {/* Floating Card Left */}
+    
             <div className="absolute left-[-40] top-6 z-20 hidden rounded-2xl bg-white/95 p-4 shadow-xl backdrop-blur-md xl:block">
               <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
                 Active Patients
@@ -179,7 +183,7 @@ export default function Banner() {
               </h3>
             </div>
 
-            {/* Floating Card Right */}
+     
             <div className="absolute bottom-6 right-[-40] z-20 hidden rounded-2xl bg-white/95 p-4 shadow-xl backdrop-blur-md xl:block">
               <p className="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
                 Trusted Doctors
@@ -190,7 +194,7 @@ export default function Banner() {
               </h3>
             </div>
 
-            {/* Swiper */}
+
             <Swiper
               modules={[Autoplay, Pagination]}
               autoplay={{
@@ -214,10 +218,10 @@ export default function Banner() {
                       className="object-cover"
                     />
 
-                    {/* Overlay */}
+            
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent"></div>
 
-                    {/* Text */}
+            
                     <div className="absolute bottom-0 left-0 w-full p-5 sm:p-8">
 
                       <span className="mb-3 inline-flex rounded-full bg-white/20 px-3 py-1 text-[11px] font-medium text-white backdrop-blur-md">
