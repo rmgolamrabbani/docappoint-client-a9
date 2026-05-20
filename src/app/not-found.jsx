@@ -33,7 +33,7 @@ export default function NotFound() {
           href="/"
           className="mt-8 inline-flex items-center justify-center rounded-2xl bg-gradient-to-r from-cyan-600 to-sky-500 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.03]"
         >
-          Back To Home
+          Back To Home And Booking
         </Link>
 
       </div>
