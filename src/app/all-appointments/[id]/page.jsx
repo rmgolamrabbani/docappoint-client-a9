@@ -31,7 +31,7 @@ const DoctorDetailsPage = async ({ params }) => {
     `${process.env.NEXT_PUBLIC_SERVER_URL}/appointments/${id}`,
     {
       headers: {
-        authorization: `Bearer ${token || ""}`,
+        authorization: `Bearer ${token}`,
       },
       cache: "no-store",
     }
