@@ -11,8 +11,8 @@ import {
 } from "lucide-react";
 
 import { useRouter } from "next/navigation";
-
 import { authClient } from "@/lib/auth-client";
+
 
 export default function RegisterPage() {
   const router = useRouter();

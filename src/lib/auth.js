@@ -22,25 +22,17 @@ export const auth = betterAuth({
   },
   
   session: {
-    strategy: "jwt",
     cookieCache: {
       enabled: true,
+      strategy: "jwt",
    
       maxAge: 10 * 24 * 60 * 60,
     }
   },
 
   plugins: [
-    jwt({
-      jwt: {
-        definePayload: (session) => {
-          return {
-            id: session.user.id,
-            email: session.user.email,
-          };
-        }
-      }
-    })
+    jwt()
   ],
+
   secret: process.env.BETTER_AUTH_SECRET,
 });

@@ -13,33 +13,33 @@ const DoctorDetailsPage = async ({ params }) => {
   const { id } = await params;
 
 
-  const session = await auth.api.getSession({
+  const {token} = await auth.api.getToken({
     headers: await headers(),
   });
 
-  if (!session) {
-    return (
-      <div className="py-20 text-center text-3xl font-bold text-red-500">
-        Please Login First
-      </div>
-    );
-  }
+  // if (!session) {
+  //   return (
+  //     <div className="py-20 text-center text-3xl font-bold text-red-500">
+  //       Please Login First
+  //     </div>
+  //   );
+  // }
   
   // get token
 
   // const cookieStore = await cookies();
   // const token = cookieStore.get("better-auth.session_token")?.value;
 
-  const {data:tokenData}=await authClient.token()
+  // const {data:tokenData}=await authClient.token()
 
-
+console.log(token)
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/appointments/${id}`,
     { 
       method: "GET",
       headers: {
-        authorization: `Bearer ${tokenData?.token}`,
+        authorization: `Bearer ${token}`,
       },
       cache: "no-store",
     }
@@ -54,7 +54,7 @@ const DoctorDetailsPage = async ({ params }) => {
   // }
 
   const doctor = await res.json();
-
+console.log(doctor)
   if (!doctor) {
     return (
       <div className="py-20 text-center text-3xl font-bold text-red-500">
