@@ -1,16 +1,17 @@
 import DoctorDetailsClient from "@/components/DoctorDetailsClient";
 import { auth } from "@/lib/auth";
+import { authClient } from "@/lib/auth-client";
 import {
   BriefcaseMedical,
   Building2,
-  MapPin,
-  Wallet,
   Star,
 } from "lucide-react";
 import { cookies, headers } from "next/headers";
 
+
 const DoctorDetailsPage = async ({ params }) => {
   const { id } = await params;
+
 
   const session = await auth.api.getSession({
     headers: await headers(),
@@ -24,26 +25,33 @@ const DoctorDetailsPage = async ({ params }) => {
     );
   }
   
-  const cookieStore = await cookies();
-  const token = cookieStore.get("better-auth.session_token")?.value;
+  // get token
+
+  // const cookieStore = await cookies();
+  // const token = cookieStore.get("better-auth.session_token")?.value;
+
+  const {data:tokenData}=await authClient.token()
+
+
 
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/appointments/${id}`,
-    {
+    { 
+      method: "GET",
       headers: {
-        authorization: `Bearer ${token}`,
+        authorization: `Bearer ${tokenData?.token}`,
       },
       cache: "no-store",
     }
   );
 
-  if (res.status === 401) {
-    return (
-      <div className="py-20 text-center text-3xl font-bold text-red-500">
-        Unauthorized Access
-      </div>
-    );
-  }
+  // if (res.status === 401) {
+  //   return (
+  //     <div className="py-20 text-center text-3xl font-bold text-red-500">
+  //       Unauthorized Access
+  //     </div>
+  //   );
+  // }
 
   const doctor = await res.json();
 
