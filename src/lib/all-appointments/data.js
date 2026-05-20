@@ -1,7 +1,7 @@
 export const getAppointments = async () => {
   try {
     const response = await fetch(
-      "http://localhost:5000/appointments",
+      "https://docappoint-server-a9.vercel.app/appointments",
       {
         cache: "no-store",
       }
