@@ -41,7 +41,7 @@ export default async function BookingsPage() {
 
           </div>
 
-          <h2 className="text-3xl font-extrabold text-slate-900">
+          <h2 className="text-3xl font-extrabold text-slate-600">
             Unauthorized Access
           </h2>
 
@@ -72,7 +72,7 @@ export default async function BookingsPage() {
 
           </div>
 
-          <h1 className="text-4xl font-extrabold text-slate-900 md:text-5xl">
+          <h1 className="text-4xl font-extrabold text-slate-700 md:text-5xl">
             My Appointments
           </h1>
 
