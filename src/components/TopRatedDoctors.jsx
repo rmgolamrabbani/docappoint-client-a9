@@ -4,17 +4,21 @@ import { Star, ShieldCheck, HeartPulse } from "lucide-react";
 
 const TopRatedDoctors = async () => {
   const allAppointmentsData = await getAppointments();
-  const topRatedDoctors = allAppointmentsData.slice(0, 4);
+
+  // Top 3 doctors based on rating
+  const topRatedDoctors = [...allAppointmentsData]
+    .sort((a, b) => (b.rating || 0) - (a.rating || 0))
+    .slice(0, 3);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-cyan-50 via-white to-sky-100 py-16">
+    <section className="relative overflow-hidden bg-gradient-to-br from-cyan-50 via-white to-sky-100 py-16 ">
 
       {/* Blur Effects */}
       <div className="absolute left-0 top-0 h-52 w-52 rounded-full bg-cyan-300/20 blur-3xl"></div>
 
       <div className="absolute bottom-0 right-0 h-60 w-60 rounded-full bg-sky-300/20 blur-3xl"></div>
 
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 gap-10  items-center">
 
         {/* Top Heading */}
         <div className="mx-auto mb-14 max-w-3xl text-center">
@@ -42,7 +46,7 @@ const TopRatedDoctors = async () => {
         </div>
 
         {/* Stats Cards */}
-        <div className="mb-12 grid grid-cols-1 gap-5 sm:grid-cols-3">
+        <div className="mb-12 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
 
           <div className="rounded-3xl border border-cyan-100 bg-white/80 p-5 shadow-lg backdrop-blur-md transition-all duration-300 hover:-translate-y-1 hover:shadow-cyan-100">
             <div className="flex items-center gap-4">
@@ -112,7 +116,7 @@ const TopRatedDoctors = async () => {
         </div>
 
         {/* Doctors Grid */}
-        <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="grid grid-cols-1 gap-7 sm:grid-cols-2 lg:grid-cols-3">
           {topRatedDoctors.map((appointment) => (
             <div
               key={appointment.id}

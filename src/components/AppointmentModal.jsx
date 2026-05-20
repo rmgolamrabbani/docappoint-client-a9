@@ -2,6 +2,8 @@
 
 import { X, CheckCircle2 } from "lucide-react";
 import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
+import toast from "react-hot-toast";
 
 const AppointmentModal = ({
   isOpen,
@@ -9,21 +11,107 @@ const AppointmentModal = ({
   doctor,
 }) => {
 
+  const { data: session } = authClient.useSession();
+
+  const user = session?.user;
+
   const [showToast, setShowToast] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   if (!isOpen) return null;
 
-  const handleSubmit = (e) => {
+  // =========================
+  // BOOK APPOINTMENT
+  // =========================
+  const handleBooking = async (e) => {
+
     e.preventDefault();
 
-    setShowToast(true);
+    setLoading(true);
 
-    setTimeout(() => {
-      setShowToast(false);
-      onClose();
-    }, 2500);
+    const formData = new FormData(e.target);
+
+    const bookingData = {
+
+      // USER INFO
+      userId: user?.id,
+      userName: user?.name,
+      userEmail: user?.email,
+      userImage: user?.image,
+
+      // DOCTOR INFO
+      doctorId: doctor?._id,
+      doctorName: doctor?.name,
+      doctorImage: doctor?.image,
+      doctorSpeciality: doctor?.speciality,
+      doctorFee: doctor?.fee,
+
+      // PATIENT INFO
+      patientName: formData.get("patientName"),
+      gender: formData.get("gender"),
+      phone: formData.get("phone"),
+
+      // APPOINTMENT INFO
+      appointmentDate: formData.get("date"),
+      appointmentTime: formData.get("time"),
+      reason: formData.get("reason"),
+
+      createdAt: new Date(),
+    };
+
+    // console.log(bookingData);
+
+    try {
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/bookings`,
+        {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(bookingData),
+        }
+      );
+
+      const data = await res.json();
+
+      console.log(data);
+
+      if (data?.insertedId) {
+
+        setShowToast(true);
+
+        e.target.reset();
+
+        setTimeout(() => {
+
+          setShowToast(false);
+
+          onClose();
+
+        }, 2500);
+
+      } else {
+
+        toast.error("Booking Failed!");
+
+      }
+
+    } catch (error) {
+
+      console.log(error);
+
+      toast.error("Something went wrong!");
+
+    } finally {
+
+      setLoading(false);
+
+    }
   };
 
+  
   return (
     <>
       {/* Toast */}
@@ -70,17 +158,17 @@ const AppointmentModal = ({
             </h2>
 
             <p className="mt-1 text-sm text-slate-500">
-              With Dr. {doctor.name}
+              With Dr. {doctor?.name}
             </p>
           </div>
 
-          {/* Form */}
+          {/* FORM */}
           <form
-            onSubmit={handleSubmit}
+            onSubmit={handleBooking}
             className="space-y-5"
           >
 
-            {/* User Email */}
+            {/* USER EMAIL */}
             <div>
 
               <label className="mb-2 block text-sm font-semibold text-slate-700">
@@ -89,12 +177,13 @@ const AppointmentModal = ({
 
               <input
                 type="email"
-                defaultValue="user@gmail.com"
-                className="w-full rounded-xl border border-cyan-200 px-4 py-3 outline-none transition-all focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+                value={user?.email || ""}
+                readOnly
+                className="w-full rounded-xl bg-slate-100 px-4 py-3 text-slate-700 outline-none"
               />
             </div>
 
-            {/* Doctor Name */}
+            {/* DOCTOR NAME */}
             <div>
 
               <label className="mb-2 block text-sm font-semibold text-slate-700">
@@ -103,13 +192,13 @@ const AppointmentModal = ({
 
               <input
                 type="text"
-                value={doctor.name}
+                value={doctor?.name || ""}
                 readOnly
                 className="w-full rounded-xl bg-slate-100 px-4 py-3 text-slate-700 outline-none"
               />
             </div>
 
-            {/* Patient Name */}
+            {/* PATIENT NAME */}
             <div>
 
               <label className="mb-2 block text-sm font-semibold text-slate-700">
@@ -118,31 +207,43 @@ const AppointmentModal = ({
 
               <input
                 type="text"
+                name="patientName"
                 placeholder="Full Name"
                 required
                 className="w-full rounded-xl border border-cyan-200 px-4 py-3 outline-none transition-all focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
               />
             </div>
 
-            {/* Gender + Phone */}
+            {/* GENDER + PHONE */}
             <div className="grid gap-4 md:grid-cols-2">
 
+              {/* GENDER */}
               <div>
 
                 <label className="mb-2 block text-sm font-semibold text-slate-700">
                   Gender
                 </label>
 
-                <select className="w-full rounded-xl border border-cyan-200 px-4 py-3 outline-none transition-all focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100">
+                <select
+                  name="gender"
+                  className="w-full rounded-xl border border-cyan-200 px-4 py-3 outline-none transition-all focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
+                >
 
-                  <option>Male</option>
+                  <option value="Male">
+                    Male
+                  </option>
 
-                  <option>Female</option>
+                  <option value="Female">
+                    Female
+                  </option>
 
-                  <option>Other</option>
+                  <option value="Other">
+                    Other
+                  </option>
                 </select>
               </div>
 
+              {/* PHONE */}
               <div>
 
                 <label className="mb-2 block text-sm font-semibold text-slate-700">
@@ -151,6 +252,7 @@ const AppointmentModal = ({
 
                 <input
                   type="tel"
+                  name="phone"
                   placeholder="01XXXXXXXXX"
                   required
                   className="w-full rounded-xl border border-cyan-200 px-4 py-3 outline-none transition-all focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
@@ -158,9 +260,10 @@ const AppointmentModal = ({
               </div>
             </div>
 
-            {/* Date + Time */}
+            {/* DATE + TIME */}
             <div className="grid gap-4 md:grid-cols-2">
 
+              {/* DATE */}
               <div>
 
                 <label className="mb-2 block text-sm font-semibold text-slate-700">
@@ -169,11 +272,13 @@ const AppointmentModal = ({
 
                 <input
                   type="date"
+                  name="date"
                   required
                   className="w-full rounded-xl border border-cyan-200 px-4 py-3 outline-none transition-all focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
                 />
               </div>
 
+              {/* TIME */}
               <div>
 
                 <label className="mb-2 block text-sm font-semibold text-slate-700">
@@ -182,13 +287,14 @@ const AppointmentModal = ({
 
                 <input
                   type="time"
+                  name="time"
                   required
                   className="w-full rounded-xl border border-cyan-200 px-4 py-3 outline-none transition-all focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
                 />
               </div>
             </div>
 
-            {/* Reason */}
+            {/* REASON */}
             <div>
 
               <label className="mb-2 block text-sm font-semibold text-slate-700">
@@ -197,18 +303,20 @@ const AppointmentModal = ({
 
               <textarea
                 rows={4}
+                name="reason"
                 placeholder="Brief reason for visit"
                 required
                 className="w-full rounded-xl border border-cyan-200 px-4 py-3 outline-none transition-all focus:border-cyan-500 focus:ring-2 focus:ring-cyan-100"
               ></textarea>
             </div>
 
-            {/* Submit Button */}
+            {/* SUBMIT BUTTON */}
             <button
               type="submit"
-              className="w-full rounded-2xl bg-gradient-to-r from-cyan-600 to-sky-500 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.01] hover:shadow-cyan-200"
+              disabled={loading}
+              className="w-full rounded-2xl bg-gradient-to-r from-cyan-600 to-sky-500 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.01] hover:shadow-cyan-200 disabled:cursor-not-allowed disabled:opacity-70"
             >
-              Confirm Booking
+              {loading ? "Booking..." : "Confirm Booking"}
             </button>
           </form>
         </div>

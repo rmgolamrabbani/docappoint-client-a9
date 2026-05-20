@@ -10,7 +10,7 @@ const DoctorDetailsClient = ({ doctor }) => {
     <>
       <button
         onClick={() => setOpen(true)}
-        className="rounded-2xl bg-gradient-to-r from-cyan-600 to-sky-500 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02]"
+        className="rounded-2xl bg-linear-to-r from-cyan-600 to-sky-500 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:scale-[1.02]"
       >
         Book Appointment
       </button>

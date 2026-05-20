@@ -103,7 +103,7 @@ export default function AllAppointmentsClient({ allAppointmentsData }) {
 
               {filteredDoctors.map((appointment) => (
                 <div
-                  key={appointment.id}
+                  key={appointment._id}
                   className="transition-all duration-300 hover:-translate-y-2"
                 >
                   <DoctorCard doctor={appointment} />

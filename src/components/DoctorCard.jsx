@@ -12,6 +12,7 @@ export default function DoctorCard({ doctor }) {
         hospital,
         location,
         fee,
+        rating, 
     } = doctor;
 
     return (
@@ -27,7 +28,7 @@ export default function DoctorCard({ doctor }) {
 
                 {/* Rating */}
                 <div className="absolute right-4 top-4 rounded-full bg-white/90 px-3 py-1 text-sm font-semibold text-yellow-500 shadow">
-                    ⭐ 4.8
+                    ⭐ {rating} / 5.0
                 </div>
             </div>
 
@@ -76,7 +77,7 @@ export default function DoctorCard({ doctor }) {
                         </h3>
                     </div>
 
-                    <Link href={`/all-appointments/${doctor.id}`}>
+                    <Link href={`/all-appointments/${doctor._id}`}>
                         <button className="rounded-xl bg-gradient-to-r from-cyan-600 to-sky-500 px-5 py-2 text-sm font-semibold text-white shadow-md transition-all duration-300 hover:scale-105">
                             View Details
                         </button>
